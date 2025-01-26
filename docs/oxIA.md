@@ -1,242 +1,236 @@
-# OX 서비스 IA 문서 (통합본)
+---
 
-OX 서비스의 IA(Information Architecture)
+## **1. 상단 메뉴 / 전역 구조**  
+### **1.1 홈(Home)**  
+- **1.1.1 마이 플레이스(My Place)**  
+- **1.1.2 리포트(Report)**  
+- **1.1.3 마이 어시스턴트(My Assistant)**  
 
-> **참고**  
-> - 일부 메뉴나 용어는 MVP 범위에서 **제외**("MVP 제거")되거나, **추가 확인**이 필요한 부분이 있을 수 있습니다.  
-> - 본 IA 구조는 실제 화면 설계나 가능 흐름도와 함께 보완하여 사용하세요.
+### **1.2 대시보드**  
+- **1.2.1 오버뷰(Overview)**  
+- **1.2.2 하위 카테고리들 (Subcategories)**  
+- **1.2.3 생성(Create) (MVP 제외)**  
+
+### **1.3 스페이스(Space) - Level 1: 최상위 작업 공간 (Top-Level Workspace)**  
+> **A space is the highest-level workspace that includes multiple projects. It serves as the primary container to manage and coordinate the organization or team’s overall tasks.**  
+
+#### **1.3.1 +a (각각의 생성된 스페이스들 / Each Created Space)**  
+##### **보기 가능 (Viewable):**  
+- Space Summary Dashboard  
+  - AI Briefing  
+  - OX Data History  
+    - Filter by date  
+- Subproject List  
+  - Manage projects within the space  
+- OX Document Listing  
+  - My assigned documents  
+  - (Filtering/Sorting available)  
+
+##### **행동 가능 (Actions):**  
+- Edit space title  
+- Manage participants  
+  - Participant list  
+  - Add participants  
+  - (Filtering/Sorting available)  
+- Search  
+
+#### **1.3.2 생성(Create):**  
+- Participant settings  
+- Space settings  
+  - Title  
 
 ---
 
-## 1. 상단 메뉴 / 전역 구조
+## **1.4 아카이브(Archive)**  
+> **A dedicated menu for storing, managing, and viewing archived documents and data.**  
 
-### 1.1 홈(Home)
-- **1.1.1 마이 플레이스(My Place)**
-- **1.1.2 리포트(Report)**
-- **1.1.3 마이 어시스턴트(My Assistant)**
-
-### 1.2 대시보드
-- **1.2.1 오버뷰**
-- **1.2.2 하위 카테고리들**
-- **1.2.3 생성 (mvp제외)**
-
-### 1.3 스페이스 (Space) - Level 1: 최상위 작업 공간
-> **스페이스는 최상위 작업 공간으로, 여러 프로젝트들을 포함하는 상위 컨테이너입니다. 조직이나 팀의 전체적인 작업을 관리하고 조율하는 공간입니다.**
-
-#### 1.3.1 **+a(각각의 생성된 스페이스들)**
-##### 보기 가능
-- 스페이스 요약 대시보드  
-  - AI 브리핑  
-  - OX 데이터 히스토리  
-    - 기간 필터링  
-- 하위 프로젝트 목록  // 스페이스 내의 프로젝트들을 관리  
-- OX 문서 리스트업  
-  - 내가 해야 하는 문서  
-  - (필터링 / 정렬)
-
-##### 행동 가능
-- 스페이스 제목 수정  
-- 참여자 관리  
-  - 참여자 리스트  
-  - 추가  
-  - (필터링 / 정렬)  
-- 검색  
-
-#### 1.3.2 **생성**
-- 참여자 설정  
-- 스페이스 설정  
-  - 제목  
+### **보기 가능 (Viewable):**  
+- AI-recommended questions (Detailed View)  
+- Quick actions  
+- Questions  
 
 ---
 
-## 1.4. 아카이브 (Archive)
-> **별도 메뉴로서** 기존 문서·데이터를 저장, 보관, 조회하는 역할을 함.
+## **2. 메인 외 가능(Main Extra Features: Settings/Notifications/Template Center)**  
 
-### 보기 가능
-- AI 추천 질문 (상세 보기)  
-- "행동 단축어  
-- 질문  
+### **2.1 설정(Settings)**  
+#### **2.1.1 사용자 관리(User Management)**  
+- Manage profile  
+- Check permissions  
 
----
+#### **2.1.2 알림 설정(Notification Settings)**  
+- Enable/Disable notifications  
+- Connect notification channels  
+- Filter notifications  
 
-## 2. 메인 외 가능 (설정 / 알림 / 템플릿 센터)
+#### **2.1.3 역할 / 권한 설정 (Roles/Permissions Settings)**  
+- Participant permission levels table  
+- Add/Edit roles  
 
-### 2.1 설정
-#### 2.1.1 사용자 관리
-- 프로필 관리  
-- 권한 확인  
+### **2.2 알림(Notifications)**  
+- Approval requests  
+- Results: Rejected/Approved  
+- Upcoming deadlines  
+- Mentions/Comments  
+- Toggle On/Off (Enable/Disable notifications)  
 
-#### 2.1.2 알림 설정
-- 알림 On / Off  
-- 알림 채널 연동  
-- 알림 필터  
-
-#### 2.1.3 역할 / 권한 설정
-- 권한 레벨 표 (참여자)  
-- 레벨 추가 / 편집  
-
-### 2.2 알림
-- 승인 요청  
-- 결과: 거절 / 승인  
-- 마감 임박  
-- 멘션 / 코멘트  
-- On / Off (알림 활성/비활성)
-
-### 2.3 템플릿 센터
-- **(MVP 제거)** 라고 표시된 박스
+### **2.3 템플릿 센터 (Template Center)**  
+- **(MVP 제외)**  
 
 ---
 
-## 4. 프로젝트 (Project) - Level 2: 스페이스의 하위 단위
-> **프로젝트는 스페이스의 하위 단위로, 특정 목적이나 주제에 따라 그룹화된 작업 공간입니다. 관련된 OX 문서들을 체계적으로 관리하고 진행 상황을 모니터링하는 중간 단계의 작업 공간입니다.**
+## **4. 프로젝트(Project) - Level 2: 스페이스의 하위 단위 (Subunit of Space)**  
+> **Projects are subunits within a space, organized around specific objectives or topics. They help systematically manage related OX documents and monitor progress at an intermediate level.**  
 
-### 4.1 **+a (각각의 생성된 프로젝트들)**
-#### 보기 가능
-- 프로젝트 요약 대시보드  
-  - AI 브리핑  
-  - OX 데이터 히스토리  
-  - 기간 필터링  
-- 하위 태스크  
-  - 테이블 뷰  
-  - 칸반보드 뷰  
-  - 갤러리 뷰  
-  - (필터링 / 정렬)
+### **4.1 +a (각각의 생성된 프로젝트들 / Each Created Project)**  
+#### **보기 가능 (Viewable):**  
+- Project Summary Dashboard  
+  - AI Briefing  
+  - OX Data History  
+  - Date filtering available  
+- Subtasks  
+  - Table View  
+  - Kanban Board View  
+  - Gallery View  
+  - (Filtering/Sorting available)  
 
-#### 행동 가능
-- 프로젝트 제목 수정  
-- 참여자 관리  
-  - 참여자 리스트  
-  - 추가  
-  - (필터링 / 정렬)  
-  - 검색  
+#### **행동 가능 (Actions):**  
+- Edit project title  
+- Manage participants  
+  - Participant list  
+  - Add participants  
+  - (Filtering/Sorting available)  
+  - Search  
 
-### 4.2 **생성**
-- 참여자 설정  
-- 스페이스 설정  
-  - 제목  
-
----
-
-## 5. OX 문서 (OX Document) - Level 3: 최소 작업 단위
-> **OX 문서는 프로젝트 내의 실제 작업 단위로, 구체적인 태스크와 목표를 정의하고 관리하는 최소 단위입니다. 실제 업무 실행과 추적이 이루어지며, 개별 작업의 진행 상황과 결과를 관리합니다.**
-
-### 5.1 **+a** (추가) 시 노출되는 항목
-- 문서 속성  
-  - 공동 책임자  
-  - 폼 타임 (기민/실행?)  
-  - 스페이스 동기  
-  - 카테고리  
-- 문서 옵션  
-  - 담당자 / 스테이터스  
-  - 업무 완료 기반  
-  - OX 질문 기반  
-  - 우선 순위  
-  - 파일  
-- 상세 설명  
-- 하위 테스크  
-- 기대 아웃풋  
-- 결과 보고  
-- 히스토리  
-  - ALL  
-  - OX 피드백  
-  - 코멘트 / 멘션  
-
-### 5.2 **생성(Create)** 시 노출되는 항목
-- 참여자 설정  
-- 문서 설정  
-  - (필수) 문서 속성  
-  - 문서 옵션  
-  - 상세 설명  
-  - 하위 테스크  
-  - 기대 아웃풋  
-  - 결과 보고  
+### **4.2 생성(Create):**  
+- Participant settings  
+- Project settings  
+  - Title  
 
 ---
 
-## 7. 하단 상세 구조도
+## **5. OX 문서(OX Document) - Level 3: 최소 작업 단위 (Smallest Work Unit)**  
+> **OX Documents are the smallest work units within a project. They define and manage specific tasks and objectives, serving as the basis for tracking individual work progress and results.**  
 
-### 7.1 마이 플레이스 (My Place)
-- **보기 가능**  
-  - 내 활동 요약 대시보드  
-    - 정시 완료  
-    - 딜레이  
-    - 미제출  
-    - 분기별 / 총 데이터 (필터링 / 정렬)  
-    - 참여 중인 프로젝트 (상세보기, 필터링/정렬)  
-    - OX 문서 리스트업  
-- **문서로 이동**  
-  - 내가 해야 하는 문서  
-  - 승인 대기 문서  
-  - (필터링 / 정렬)  
-- **알림**  
-  - 승인 요청  
-  - 결과: 거절 / 승인  
-  - 마감 임박  
-  - 멘션 / 코멘트  
+### **5.1 +a (추가 시 노출되는 항목 / Displayed Items for Additions):**  
+- Document Attributes  
+  - Co-owners  
+  - Form type (Agile/Execution)  
+  - Space synchronization  
+  - Categories  
+- Document Options  
+  - Assignees/Status  
+  - Task completion criteria  
+  - OX question-based criteria  
+  - Priority  
+  - Attachments  
+- Detailed Descriptions  
+- Subtasks  
+- Expected Outputs  
+- Results Reports  
+- History  
+  - All updates  
+  - OX Feedback  
+  - Comments/Mentions  
 
----
-
-### 7.2 내가 한 OX 문서
-- **보기 가능**  
-  - 내 활동 요약 대시보드  
-    - 정시 완료  
-    - 딜레이  
-    - 미제출  
-    - 분기별 OX 종 데이터 (필터링 / 정렬)  
-  - OX 데이터 히스토리 (기간 필터링)  
-  - 스페이스별 OX 데이터 (필터링 / 정렬)
-
----
-
-### 7.3 내가 받은 OX 문서
-- **보기 가능**  
-  - OX 데이터 히스토리 (기간 필터링)  
-  - 스페이스별 OX 데이터 (필터링 / 정렬)  
-  - 카테고리별 OX 데이터 (필터링 / 정렬)  
-  - (MVP 제거) 표시된 가능 일부 존재  
+### **5.2 생성(Create):**  
+- Participant settings  
+- Document settings  
+  - (Mandatory) Document attributes  
+  - Document options  
+  - Detailed descriptions  
+  - Subtasks  
+  - Expected outputs  
+  - Results reports  
 
 ---
 
-### 7.4 마이 어시스턴트 (My Assistant)
-- **보기 가능**  
-  - (MVP 제거)  
-  - 질문 히스토리  
-    - 상세보기 (MVP 제거)  
-- **행동 가능**  
-  - 질문  
+## **7. 하단 상세 구조도 (Detailed Lower-Level Structure)**  
+
+### **7.1 마이 플레이스(My Place)**  
+#### **보기 가능 (Viewable):**  
+- My Activity Summary Dashboard  
+  - On-time completion rate  
+  - Delays  
+  - Unsubmitted tasks  
+  - Quarterly/Overall data (Filter/Sort options available)  
+  - Participating projects (View details, Filter/Sort)  
+  - OX Document Listing  
+
+#### **문서로 이동 (Navigate to Document):**  
+- My tasks  
+- Approval-pending documents  
+- (Filtering/Sorting available)  
+
+#### **알림 (Notifications):**  
+- Approval requests  
+- Results: Rejected/Approved  
+- Upcoming deadlines  
+- Mentions/Comments  
 
 ---
 
-### 7.5 오버뷰 (Overview)
-- **보기 가능**  
-  - 기본 정보 섹션  
-  - 주별 승인 비율  
-  - 진행중인 테스크 (MVP 제거)  
-  - OX 요약 보드  
-  - AI 브리핑  
-  - OX 데이터 히스토리 (기간 필터링) (MVP 제거)  
-- **행동 가능**  
-  - 질문  
-- **스페이스별 테스크**  
-  - 각각 상세 보기  
-  - (필터링 / 정렬)  
-- **스페이스별 성과**  
-  - 정시완료율 / 승인율 표  
-  - 정시완료율 & 승인율 요약  
-  - (필터링 / 정렬)  
-- **참여자별 OX 데이터**  
-  - (필터링 / 정렬)  
+### **7.2 내가 한 OX 문서(My OX Documents)**  
+#### **보기 가능 (Viewable):**  
+- My Activity Summary Dashboard  
+  - On-time completion rate  
+  - Delays  
+  - Unsubmitted tasks  
+  - Quarterly OX data (Filter/Sort available)  
+- OX Data History (Filter by date)  
+- Space-wise OX data (Filter/Sort available)  
 
 ---
 
-## 8. 기타 참고사항
-
-1. **필터/정렬 가능**은 "최악의 상황 시 뺄 수 있음"  
-2. **MVP 제거**가 적힌 항목들은 1차 개발 범위(또는 실제 서비스 MVP)에서 제외될 가능성이 있으며, 추후 필요 시 재검토  
-3. 메뉴/가능의 상세 구현(화면 설계, 데이터 흐름, UI/UX)은 별도의 **프로토타입** 또는 **기획 문서**에서 보완 필요  
-4. 상단 "1/2/3" 구분과 **메뉴 위치** 등은 추후 확정 IA 버전에 맞춰 명확히 정리할 것  
+### **7.3 내가 받은 OX 문서(OX Documents Assigned to Me)**  
+#### **보기 가능 (Viewable):**  
+- OX Data History (Filter by date)  
+- Space-wise OX data (Filter/Sort available)  
+- Category-wise OX data (Filter/Sort available)  
+- Some features marked as **(MVP 제외)**  
 
 ---
 
-> **이상**은 각 파트에 기재된 모든 요소(Part A, Part B, Part C)를 합쳐 **일반적인 IA 문서 형식**으로 통합·구조화한 예시입니다.  
-> 실제 서비스 상황에 따라 **용어**, **우선순위**, **메뉴 위치**, **MVP 포함 여부** 등을 최종 조정해 사용하시기 바랍니다.
+### **7.4 마이 어시스턴트(My Assistant)**  
+#### **보기 가능 (Viewable):**  
+- **(MVP 제외)**  
+- Question History  
+  - Detailed view (**MVP 제외**)  
+
+#### **행동 가능 (Actions):**  
+- Ask questions  
+
+---
+
+### **7.5 오버뷰(Overview)**  
+#### **보기 가능 (Viewable):**  
+- Basic Information Section  
+- Weekly Approval Rates  
+- Ongoing Tasks (**MVP 제외**)  
+- OX Summary Board  
+- AI Briefing  
+- OX Data History (Filter by date) (**MVP 제외**)  
+
+#### **행동 가능 (Actions):**  
+- Ask questions  
+
+#### **스페이스별 테스크 (Tasks by Space):**  
+- View details for each  
+- (Filtering/Sorting available)  
+
+#### **스페이스별 성과 (Performance by Space):**  
+- On-time completion rate/Approval rate table  
+- On-time completion & approval rate summary  
+- (Filtering/Sorting available)  
+
+#### **참여자별 OX 데이터 (Participant-specific OX Data):**  
+- (Filtering/Sorting available)  
+
+---
+
+### **8. 기타 참고사항 (Additional Notes)**  
+
+1. **Filtering/Sorting features** can be removed in "worst-case scenarios."  
+2. Items marked as **MVP 제외** may be excluded in the first development phase or MVP scope but can be revisited later if needed.  
+3. Detailed implementation (screen design, data flow, UI/UX) should be supplemented with a **prototype** or **planning document**.  
+4. Further clarification on the division of "1/2/3" and menu positioning will be finalized in the confirmed IA version.  
