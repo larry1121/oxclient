@@ -28,19 +28,32 @@ export interface Task {
   category: string;
   progress?: number;
   subTasks?: SubTask[];
-  evaluation?: {
-    isSubmitted: boolean;
-    submittedAt?: string;
-    evaluatedAt?: string;
-    score?: 'O' | 'X';
-    feedback?: string;
-    evaluator?: string;
-  };
+  evaluation?: TaskEvaluation;
 } 
 
 
 export interface TaskSubmissionData {
-    resultReport: string;
-    executionResult: string;
-    attachments: string[];
-  }
+  resultReport: string;
+  executionResult: string;
+  attachments: string[];
+}
+
+export interface TaskEvaluation {
+  isSubmitted: boolean;
+  submittedAt?: string;
+  evaluatedAt?: string;
+  score?: 'O' | 'X';
+  feedback?: string;
+  evaluator?: string;
+  submissionData?: TaskSubmissionData;
+  history: TaskEvaluationHistory[];
+}
+
+export interface TaskEvaluationHistory {
+  submittedAt: string;
+  evaluatedAt: string;
+  submissionData: TaskSubmissionData;
+  score: 'O' | 'X';
+  feedback: string;
+  evaluator: string;
+}

@@ -9,15 +9,17 @@ import { StorageService } from '@/services/storage';
 interface TaskSubmissionProps {
   task: Task;
   onSubmit: (taskId: number, submissionData: TaskSubmissionData) => void;
+  previousSubmission?: TaskSubmissionData;
 }
 
-
-export default function TaskSubmission({ task, onSubmit }: TaskSubmissionProps) {
-  const [submissionData, setSubmissionData] = useState<TaskSubmissionData>({
-    resultReport: '',
-    executionResult: '',
-    attachments: []
-  });
+export default function TaskSubmission({ task, onSubmit, previousSubmission }: TaskSubmissionProps) {
+  const [submissionData, setSubmissionData] = useState<TaskSubmissionData>(
+    previousSubmission || {
+      resultReport: '',
+      executionResult: '',
+      attachments: []
+    }
+  );
   
   const handleSubmit = () => {
     if (!submissionData.resultReport.trim() || !submissionData.executionResult.trim()) {

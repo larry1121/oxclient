@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { Task, SubTask, TaskSubmissionData } from '@/types/task';
+import { Task, SubTask, TaskSubmissionData, TaskEvaluationHistory } from '@/types/task';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import TaskProgress from './TaskProgress';
 import SubTaskList from './SubTaskList';
 import TaskSubmission from './TaskSubmission';
+import TaskEvaluation from './TaskEvaluation';
 
 interface TaskDetailProps {
   task: Task | null;
@@ -70,10 +71,47 @@ export default function TaskDetail({ task, onClose, onUpdate }: TaskDetailProps)
       evaluation: {
         isSubmitted: true,
         submittedAt: new Date().toISOString(),
-        submissionData: submissionData
-      }
+        submissionData: submissionData,
+        history: task.evaluation?.history || []
+      },
+      status: 'Submitted'
     };
     
+    onUpdate(updatedTask);
+  };
+
+  const handleEvaluate = (taskId: number, evaluation: { score: 'O' | 'X', feedback: string }) => {
+    const currentEvaluation = task.evaluation;
+    const history = currentEvaluation?.history ? [...currentEvaluation.history] : [];
+
+    history.push({
+      submittedAt: currentEvaluation?.submittedAt || new Date().toISOString(),
+      evaluatedAt: new Date().toISOString(),
+      submissionData: currentEvaluation?.submissionData || {
+        resultReport: '',
+        executionResult: '',
+        attachments: []
+      },
+      score: evaluation.score,
+      feedback: evaluation.feedback,
+      evaluator: '평가자 A'
+    });
+
+    const updatedTask = {
+      ...task,
+      status: evaluation.score === 'X' ? 'InProgress' : 'Completed',
+      evaluation: {
+        isSubmitted: evaluation.score === 'X' ? false : true,
+        submittedAt: evaluation.score === 'X' ? undefined : task.evaluation?.submittedAt,
+        evaluatedAt: new Date().toISOString(),
+        score: evaluation.score,
+        feedback: evaluation.feedback,
+        evaluator: '평가자 A',
+        history: history,
+        submissionData: task.evaluation?.submissionData
+      }
+    };
+
     onUpdate(updatedTask);
   };
 
@@ -278,21 +316,54 @@ export default function TaskDetail({ task, onClose, onUpdate }: TaskDetailProps)
         />
 
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">테스크 제출</h2>
-          {task.evaluation?.isSubmitted ? (
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-gray-600">
-                제출일: {new Date(task.evaluation.submittedAt!).toLocaleString()}
-              </p>
-              {task.evaluation.evaluatedAt && (
-                <div className="mt-2">
-                  <p className="font-medium">평가 결과: {task.evaluation.score}</p>
-                  <p className="text-gray-600">{task.evaluation.feedback}</p>
-                </div>
-              )}
+          {task.evaluation?.history && task.evaluation.history.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-medium mb-4">평가 이력</h3>
+              <div className="space-y-4">
+                {task.evaluation.history.map((hist, index) => (
+                  <div key={index} className="border rounded-lg p-4 bg-gray-50">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">
+                        {hist.score === 'O' ? '✅ 승인' : '❌ 반려'}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {new Date(hist.evaluatedAt).toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="mt-2 text-sm text-gray-600">
+                      <h4 className="font-medium">제출 내용</h4>
+                      <p className="mt-1">결과 보고: {hist.submissionData.resultReport}</p>
+                      <p className="mt-1">실행 결과: {hist.submissionData.executionResult}</p>
+                    </div>
+                    <div className="mt-2">
+                      <h4 className="font-medium text-sm">피드백</h4>
+                      <p className="text-gray-700">{hist.feedback}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          )}
+
+          {(!task.evaluation?.isSubmitted || task.status === 'InProgress') ? (
+            <TaskSubmission 
+              task={task} 
+              onSubmit={handleTaskSubmit}
+              previousSubmission={task.evaluation?.submissionData}
+            />
+          ) : !task.evaluation.evaluatedAt ? (
+            <TaskEvaluation task={task} onEvaluate={handleEvaluate} />
           ) : (
-            <TaskSubmission task={task} onSubmit={handleTaskSubmit} />
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-lg font-medium mb-2">최종 평가 결과</h3>
+              <p className="text-xl font-bold mb-2">
+                {task.evaluation.score === 'O' ? '✅ 승인' : '❌ 반려'}
+              </p>
+              <p className="text-gray-700">{task.evaluation.feedback}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                평가일: {new Date(task.evaluation.evaluatedAt).toLocaleString()}
+              </p>
+            </div>
           )}
         </div>
       </div>
