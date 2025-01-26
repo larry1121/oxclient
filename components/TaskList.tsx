@@ -1,5 +1,6 @@
 "use client"
 import { useState, useMemo, useEffect } from 'react';
+
 import { Task } from '@/types/task';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,9 +9,10 @@ import TaskFilter, { TaskFilters } from './TaskFilter';
 interface TaskListProps {
   tasks: Task[];
   onTaskSelect: (task: Task) => void;
+  onTaskDelete: (taskId: number) => void;
 }
 
-export default function TaskList({ tasks, onTaskSelect }: TaskListProps) {
+export default function TaskList({ tasks, onTaskSelect, onTaskDelete }: TaskListProps) {
   const [filters, setFilters] = useState<TaskFilters>({
     search: '',
     status: 'all',
@@ -84,21 +86,33 @@ export default function TaskList({ tasks, onTaskSelect }: TaskListProps) {
           <div
             key={task.id}
             className="border rounded-lg p-4 cursor-pointer hover:bg-gray-50"
-            onClick={() => onTaskSelect(task)}
           >
             <div className="flex justify-between items-start mb-2">
-              <h3 className="font-semibold">{task.task_title}</h3>
-              <div className="flex gap-2">
-                <Badge className={`${getStatusColor(task.status)}`}>
-                  {task.status === 'NotStarted' ? '진행전' :
-                   task.status === 'InProgress' ? '진행중' :
-                   task.status === 'Completed' ? '완료' : '보류'}
-                </Badge>
-                <Badge className={`${getPriorityColor(task.priority as 'high' | 'medium' | 'low')}`}>
-                  {task.priority === 'high' ? '높음' :
-                   task.priority === 'medium' ? '중간' : '낮음'}
-                </Badge>
+              <div className="flex-1" onClick={() => onTaskSelect(task)}>
+                <h3 className="font-semibold">{task.task_title}</h3>
+                <div className="flex gap-2">
+                  <Badge className={`${getStatusColor(task.status)}`}>
+                    {task.status === 'NotStarted' ? '진행전' :
+                     task.status === 'InProgress' ? '진행중' :
+                     task.status === 'Completed' ? '완료' : '보류'}
+                  </Badge>
+                  <Badge className={`${getPriorityColor(task.priority as 'high' | 'medium' | 'low')}`}>
+                    {task.priority === 'high' ? '높음' :
+                     task.priority === 'medium' ? '중간' : '낮음'}
+                  </Badge>
+                </div>
               </div>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTaskDelete(task.id);
+                }}
+                className="ml-2"
+              >
+                삭제
+              </Button>
             </div>
             
             <div className="text-sm text-gray-600 mb-2">

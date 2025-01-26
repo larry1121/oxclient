@@ -30,6 +30,17 @@ export default function Home() {
     StorageService.saveTasks(updatedTasks);
   };
 
+  const handleDeleteTask = (taskId: number) => {
+    if (window.confirm('정말로 이 테스크를 삭제하시겠습니까?')) {
+      const updatedTasks = tasks.filter(task => task.id !== taskId);
+      setTasks(updatedTasks);
+      StorageService.saveTasks(updatedTasks);
+      if (selectedTask?.id === taskId) {
+        setSelectedTask(null);
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -37,6 +48,7 @@ export default function Home() {
         <TaskList 
           tasks={tasks} 
           onTaskSelect={(task) => setSelectedTask(task)}
+          onTaskDelete={handleDeleteTask}
         />
       </div>
       {selectedTask && (

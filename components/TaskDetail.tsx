@@ -1,6 +1,6 @@
 "use client"
 import { useState } from 'react';
-import { Task, SubTask } from '@/types/task';
+import { Task, SubTask, TaskSubmissionData } from '@/types/task';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import TaskProgress from './TaskProgress';
 import SubTaskList from './SubTaskList';
+import TaskSubmission from './TaskSubmission';
 
 interface TaskDetailProps {
   task: Task | null;
@@ -63,9 +64,22 @@ export default function TaskDetail({ task, onClose, onUpdate }: TaskDetailProps)
     }
   };
 
+  const handleTaskSubmit = (taskId: number, submissionData: TaskSubmissionData) => {
+    const updatedTask = {
+      ...task,
+      evaluation: {
+        isSubmitted: true,
+        submittedAt: new Date().toISOString(),
+        submissionData: submissionData
+      }
+    };
+    
+    onUpdate(updatedTask);
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-start overflow-y-auto p-4">
+      <div className="bg-white rounded-lg p-6 max-w-4xl w-full mt-8">
         <div className="flex justify-between items-start mb-4">
           <div>
             {isEditing ? (
@@ -262,6 +276,25 @@ export default function TaskDetail({ task, onClose, onUpdate }: TaskDetailProps)
           onSubTaskAdd={handleAddSubTask}
           onSubTaskUpdate={handleUpdateSubTask}
         />
+
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-4">테스크 제출</h2>
+          {task.evaluation?.isSubmitted ? (
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-gray-600">
+                제출일: {new Date(task.evaluation.submittedAt!).toLocaleString()}
+              </p>
+              {task.evaluation.evaluatedAt && (
+                <div className="mt-2">
+                  <p className="font-medium">평가 결과: {task.evaluation.score}</p>
+                  <p className="text-gray-600">{task.evaluation.feedback}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <TaskSubmission task={task} onSubmit={handleTaskSubmit} />
+          )}
+        </div>
       </div>
     </div>
   );

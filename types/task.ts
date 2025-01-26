@@ -28,4 +28,19 @@ export interface Task {
   category: string;
   progress?: number;
   subTasks?: SubTask[];
+  evaluation?: {
+    isSubmitted: boolean;
+    submittedAt?: string;
+    evaluatedAt?: string;
+    score?: 'O' | 'X';
+    feedback?: string;
+    evaluator?: string;
+  };
 } 
+
+
+export interface TaskSubmissionData {
+    resultReport: string;
+    executionResult: string;
+    attachments: string[];
+  }

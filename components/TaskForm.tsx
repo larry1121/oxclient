@@ -45,36 +45,34 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
   const [dueDate, setDueDate] = useState('2025-01-10');
   const [successMessage, setSuccessMessage] = useState('');
 
+  // 날짜 초기값 설정 (현재 시간 기준)
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const [taskDueDate, setTaskDueDate] = useState(today.toISOString().split('T')[0]);
+  const [oxDueDate, setOxDueDate] = useState(tomorrow.toISOString().split('T')[0]);
+
   const validateForm = (): boolean => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const dueDateTime = new Date(dueDate);
-    const completionDateTime = new Date(completionDate);
+    const taskDateTime = new Date(taskDueDate);
+    const oxDateTime = new Date(oxDueDate);
 
-    if (!taskTitle.trim()) {
-      alert("테스크 제목을 입력해주세요");
-      document.getElementById("taskTitle")?.focus();
+    if (!taskDueDate || !oxDueDate) {
+      alert("Task 마감일과 OX 검토 마감일을 모두 입력해주세요");
       return false;
     }
-    if (!description.trim()) {
-      alert("상세 설명을 입력해주세요");
-      document.getElementById("description")?.focus();
+    if (taskDateTime < today) {
+      alert("Task 마감일은 오늘 이후로 설정해주세요");
       return false;
     }
-    if (!completionDate || !dueDate) {
-      alert("완료일과 마감일을 모두 입력해주세요");
+    if (oxDateTime < today) {
+      alert("OX 검토 마감일은 오늘 이후로 설정해주세요");
       return false;
     }
-    if (dueDateTime < today) {
-      alert("마감일은 오늘 이후로 설정해주세요");
-      return false;
-    }
-    if (completionDateTime < today) {
-      alert("완료일은 오늘 이후로 설정해주세요");
-      return false;
-    }
-    if (dueDateTime > completionDateTime) {
-      alert("마감일은 완료일 이전이어야 합니다");
+    if (taskDateTime > oxDateTime) {
+      alert("Task 마감일은 OX 검토 마감일 이전이어야 합니다");
       return false;
     }
     return true;
@@ -256,21 +254,21 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
 
       <div className="mt-4 grid grid-cols-2 gap-4">
         <div>
-          <label htmlFor="completionDate" className="block">완료 날짜</label>
+          <label htmlFor="taskDueDate" className="block">Task 마감일</label>
           <Input
-            id="completionDate"
+            id="taskDueDate"
             type="date"
-            value={completionDate}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setCompletionDate(e.target.value)}
+            value={taskDueDate}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setTaskDueDate(e.target.value)}
           />
         </div>
         <div>
-          <label htmlFor="dueDate" className="block">마감 날짜</label>
+          <label htmlFor="oxDueDate" className="block">OX 검토 마감일</label>
           <Input
-            id="dueDate"
+            id="oxDueDate"
             type="date"
-            value={dueDate}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setDueDate(e.target.value)}
+            value={oxDueDate}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setOxDueDate(e.target.value)}
           />
         </div>
       </div>
@@ -292,8 +290,8 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
               assignee,
               status,
               priority,
-              task_due_date: completionDate,
-              ox_due_date: dueDate,
+              task_due_date: taskDueDate,
+              ox_due_date: oxDueDate,
               in_project_id: 0,
               in_project_name: "",
             };
