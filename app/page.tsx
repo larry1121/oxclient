@@ -1,10 +1,51 @@
-import Image from "next/image";
-import TaskForm from '../components/TaskForm'
+"use client"
+import { useState, useEffect } from 'react';
+import TaskForm from '../components/TaskForm';
+import TaskList from '../components/TaskList';
+import TaskDetail from '../components/TaskDetail';
+import { Task } from '@/types/task';
+import { StorageService } from '@/services/storage';
 
 export default function Home() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  useEffect(() => {
+    const savedTasks = StorageService.getTasks();
+    setTasks(savedTasks);
+  }, []);
+
+  const handleAddTask = (newTask: Task) => {
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    StorageService.saveTasks(updatedTasks);
+  };
+
+  const handleUpdateTask = (updatedTask: Task) => {
+    const updatedTasks = tasks.map(task => 
+      task.id === updatedTask.id ? updatedTask : task
+    );
+    setTasks(updatedTasks);
+    setSelectedTask(updatedTask);
+    StorageService.saveTasks(updatedTasks);
+  };
+
   return (
     <div className="container mx-auto py-8">
-      <TaskForm />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <TaskForm onTaskAdd={handleAddTask} />
+        <TaskList 
+          tasks={tasks} 
+          onTaskSelect={(task) => setSelectedTask(task)}
+        />
+      </div>
+      {selectedTask && (
+        <TaskDetail
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+          onUpdate={handleUpdateTask}
+        />
+      )}
     </div>
   );
 }
