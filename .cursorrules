@@ -2,18 +2,18 @@
 
 ## Directory Structure
 
-- src
-- src/app: Next.js App Routers
-- src/components: Common Components like Button, Input, Select, ...
-- src/constants: Common constants like palette
-- src/hooks: Common hooks
-- src/lib: utility functions
-- src/remote: http client
-- src/features/[featureName]/components/*: Components for specific feature
-- src/features/[featureName]/constants/*
-- src/features/[featureName]/hooks/*
-- src/features/[featureName]/lib/*
-- src/features/[featureName]/api.ts: api fetch functions
+
+- app: Next.js App Routers
+- components: Common Components like Button, Input, Select, ...
+- constants: Common constants like palette
+- hooks: Common hooks
+- lib: utility functions
+- remote: http client
+- features/[featureName]/components/*: Components for specific feature
+- features/[featureName]/constants/*
+- features/[featureName]/hooks/*
+- features/[featureName]/lib/*
+- features/[featureName]/api.ts: api fetch functions
 
 ## Solution Process:
 
