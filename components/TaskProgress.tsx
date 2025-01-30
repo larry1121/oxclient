@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { StorageService } from '@/services/storage';
+import { Slider } from "@/components/ui/slider"; // ShadCN UI Slider 사용
 
 interface ProgressNote {
   id: number;
@@ -49,14 +50,13 @@ export default function TaskProgress({ task, onProgressUpdate }: TaskProgressPro
       <div>
         <h3 className="text-lg font-medium mb-2">진행 상황</h3>
         <Progress value={progressPercentage} className="w-full" />
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={progressPercentage}
-          onChange={(e) => setProgressPercentage(Number(e.target.value))}
-          className="w-full mt-2"
-        />
+        <Slider
+  defaultValue={[progressPercentage]}
+  max={100}
+  step={1}
+  onValueChange={(value) => setProgressPercentage(value[0])}
+  className="w-full mt-2"
+/>
         <span className="text-sm text-gray-600">{progressPercentage}% 완료</span>
       </div>
 
