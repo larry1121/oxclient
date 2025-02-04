@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -56,10 +55,14 @@ interface TaskFormProps {
 // 2) Zod 스키마 정의
 //    - 필요한 부분에 따라 더 세세한 validation 규칙을 추가할 수 있습니다.
 //
-const today = new Date()
-today.setHours(0, 0, 0, 0)
-const tomorrow = new Date(today)
-tomorrow.setDate(today.getDate() + 1)
+const today = new Date();
+today.setUTCHours(0, 0, 0, 0); // UTC 기준으로 00:00:00 설정
+
+const tomorrow = new Date(today);
+tomorrow.setUTCDate(today.getUTCDate() + 1);
+
+console.log(today, tomorrow);
+
 
 // *주의: Date 입력을 문자열로 받고 있으므로, 아래에서도 string으로 받되 date 변환을 직접 수행합니다.
 const taskFormSchema = z
@@ -67,8 +70,8 @@ const taskFormSchema = z
     task_title: z.string().min(1, "Task Title은 필수입니다."),
     project_overview: z.string().default(""),
     description: z.string().min(1, "상세 설명은 필수입니다."),
-    detail_tasks: z.array(z.string()).nonempty(), // 비어있는 배열 허용 시 .optional() 등으로 조정
-    expected_outcome: z.string().nonempty(),
+    detail_tasks: z.array(z.object({ task: z.string() })).default([]),
+    expected_outcome: z.string().default("기대 결과를 입력하세요"),
     metric: z.string().nonempty(),
     space: z.string().default("00"),
     category: z.string().default("design"),
@@ -124,7 +127,7 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
       task_title: "Wire Frame Mock Up",
       project_overview: "프로젝트 개요 (옵션)",
       description: "시드 라운드 투자를 위해...",
-      detail_tasks: ["상세테스크 1"],
+      detail_tasks: [{ task: "상세테스크 1" }],
       expected_outcome: "와이어 프레임 50p 피그마",
       metric: "텍스트로 전환을 00% 넘겨라~",
       space: "00",
@@ -139,34 +142,38 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
   })
 
   // 4-2) detail_tasks 배열 제어 (동적 폼)
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<z.infer<typeof taskFormSchema>, "detail_tasks">({
     control: form.control,
     name: "detail_tasks",
   })
 
   // 5) 폼 전송 시 (onSubmit)
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    // 실제 데이터 전송 시 Task 타입으로 변환
+    // Extract detail_tasks from values
+    const { detail_tasks, ...rest } = values;
+
+    // Convert detail_tasks array from object to string array
     const newTask: Task = {
       id: Date.now(), // 예: 임시로 Date.now() 사용
       in_project_id: 0,
       in_project_name: "",
-      ...values,
-    }
+      ...rest,
+      detail_tasks: detail_tasks.map(item => item.task),
+    };
 
     // 상위 컴포넌트에 Task 전달
-    onTaskAdd?.(newTask)
+    onTaskAdd?.(newTask);
 
     // 성공 메시지 표출
-    setSuccessMessage("Task successfully created!")
+    setSuccessMessage("Task successfully created!");
 
     // 폼 리셋
-    form.reset()
+    form.reset();
 
     // 3초 뒤 성공 메시지 지우기
     setTimeout(() => {
-      setSuccessMessage("")
-    }, 3000)
+      setSuccessMessage("");
+    }, 3000);
   }
 
   return (
@@ -382,42 +389,34 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
 
             {fields.map((item, index) => (
               <div key={item.id} className="flex gap-2 mt-2">
-                {/* 배열이므로 register 사용: detail_tasks[index] */}
+                {/* 변경: name을 `detail_tasks.${index}.task`로 사용 */}
                 <FormField
                   control={form.control}
-                  name={`detail_tasks.${index}`}
+                  name={`detail_tasks.${index}.task`}
                   render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormControl>
-                        <Input
-                          placeholder={`상세 테스크 ${index + 1}`}
-                          {...field}
-                        />
+                        <Input placeholder={`상세 테스크 ${index + 1}`} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                {/* 항목 삭제 버튼 (1개 이상일 때만 활성) */}
                 {fields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={() => remove(index)}
-                  >
+                  <Button type="button" variant="destructive" onClick={() => remove(index)}>
                     삭제
                   </Button>
                 )}
               </div>
             ))}
 
-            {/* 추가 버튼 */}
+            {/* 변경: 새 항목을 추가할 때 객체 리터럴로 변경 */}
             <Button
               type="button"
               variant="outline"
               className="mt-2"
-              onClick={() => append("")}
+              onClick={() => append({ task: "" })}
             >
               상세 테스크 추가
             </Button>
