@@ -1,4 +1,16 @@
 import { Task } from '../types/task'; // Task 타입이 정의된 경로로 수정
+import { Project } from '../types/project';
+import { Space } from '@/types/space';
+
+export interface ProgressNote {
+  id: number;
+  taskId: number;
+  note: string;
+  timestamp: string;
+  progressPercentage: number;
+}
+
+// Define a specific type for Space.
 
 export const StorageService = {
   getTasks: (): Task[] => {
@@ -17,13 +29,26 @@ export const StorageService = {
 
   saveProgressNotes: (taskId: number, notes: ProgressNote[]): void => {
     localStorage.setItem(`progress_notes_${taskId}`, JSON.stringify(notes));
-  }
-};
+  },
 
-interface ProgressNote {
-  id: number;
-  taskId: number;
-  note: string;
-  timestamp: string;
-  progressPercentage: number;
-} 
+  getProjects: (spaceId: number): Project[] => {
+    const projects = localStorage.getItem(`projects_${spaceId}`);
+    return projects ? JSON.parse(projects) : [];
+  },
+
+  saveProjects: (spaceId: number, projects: Project[]): void => {
+    localStorage.setItem(`projects_${spaceId}`, JSON.stringify(projects));
+  },
+
+  // Updated to use the Space type instead of any.
+  getSpaces: (): Space[] => {
+    const spaces = localStorage.getItem('spaces');
+    if (!spaces) return [];
+    // Parse and assert the type to Space[]
+    return JSON.parse(spaces) as Space[];
+  },
+
+  saveSpaces: (spaces: Space[]): void => {
+    localStorage.setItem('spaces', JSON.stringify(spaces));
+  }
+}; 

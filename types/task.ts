@@ -29,6 +29,8 @@ export interface Task {
   progress?: number;
   subTasks?: SubTask[];
   evaluation?: TaskEvaluation;
+  project_id: number;
+  space_id: number;
 } 
 
 

@@ -45,9 +45,13 @@ interface Task {
   metric: string
   space: string
   category: string
+  space_id: number
+  project_id: number
 }
 
 interface TaskFormProps {
+  spaceId: number
+  projectId: number
   onTaskAdd?: (task: Task) => void
 }
 
@@ -117,7 +121,7 @@ const taskFormSchema = z
 //
 // 4) 폼 컴포넌트
 //
-export default function TaskForm({ onTaskAdd }: TaskFormProps) {
+export default function TaskForm({ spaceId, projectId, onTaskAdd }: TaskFormProps) {
   const [successMessage, setSuccessMessage] = useState("")
 
   // 4-1) useForm 훅으로 리액트 훅 폼 제어
@@ -149,19 +153,16 @@ export default function TaskForm({ onTaskAdd }: TaskFormProps) {
 
   // 5) 폼 전송 시 (onSubmit)
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    // Extract detail_tasks from values
-    const { detail_tasks, ...rest } = values;
-
-    // Convert detail_tasks array from object to string array
     const newTask: Task = {
-      id: Date.now(), // 예: 임시로 Date.now() 사용
+      ...values,
+      id: Date.now(),
+      space_id: spaceId,
+      project_id: projectId,
       in_project_id: 0,
       in_project_name: "",
-      ...rest,
-      detail_tasks: detail_tasks.map(item => item.task),
+      detail_tasks: values.detail_tasks.map(item => item.task)
     };
 
-    // 상위 컴포넌트에 Task 전달
     onTaskAdd?.(newTask);
 
     // 성공 메시지 표출
