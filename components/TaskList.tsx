@@ -86,9 +86,10 @@ export default function TaskList({ tasks, onTaskSelect, onTaskDelete }: TaskList
           <div
             key={task.id}
             className="border rounded-lg p-4 cursor-pointer hover:bg-gray-50"
+            onClick={() => onTaskSelect(task)}
           >
             <div className="flex justify-between items-start mb-2">
-              <div className="flex-1" onClick={() => onTaskSelect(task)}>
+              <div className="flex-1">
                 <h3 className="font-semibold">{task.task_title}</h3>
                 <div className="flex gap-2">
                   <Badge className={`${getStatusColor(task.status)}`}>
